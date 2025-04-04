@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Tooltip } from 'react95';
-import { Computer } from '@react95/icons/esm/Computer';
+import { Computer } from '@react95/icons';
 
 const Taskbar = () => {
   return (
