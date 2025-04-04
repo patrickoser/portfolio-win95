@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Tooltip } from 'react95';
-import { StartIcon } from '@react95/icons';
+import { Computer } from '@react95/icons/esm/Computer';
 
 const Taskbar = () => {
   return (
@@ -8,7 +8,7 @@ const Taskbar = () => {
       <Toolbar style={{ justifyContent: 'space-between' }}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <Button>
-            <StartIcon style={{ marginRight: 4 }} />
+            <Computer style={{ marginRight: 4 }} />
             Start
           </Button>
         </div>
