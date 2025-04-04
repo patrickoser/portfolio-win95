@@ -4,16 +4,16 @@ import { Computer } from '@react95/icons';
 
 const Taskbar = () => {
   return (
-    <AppBar style={{ top: 'auto', bottom: 0 }}>
-      <Toolbar style={{ justifyContent: 'space-between' }}>
+    <AppBar style={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+      <Toolbar style={{ justifyContent: 'space-between', padding: '0 4px' }}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <Button>
+          <Button variant="menu">
             <Computer style={{ marginRight: 4 }} />
             Start
           </Button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip text="Current time" enterDelay={100} leaveDelay={500}>
+          <Tooltip text="Current time">
             <div style={{ padding: '0 8px' }}>
               {new Date().toLocaleTimeString()}
             </div>
