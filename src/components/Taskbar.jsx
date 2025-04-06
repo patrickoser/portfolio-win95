@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from 'react95';
 import { MenuList } from 'react95/dist/MenuList/MenuList';
 import { MenuListItem } from 'react95/dist/MenuList/MenuListItem';
@@ -6,6 +6,15 @@ import { Computer } from '@react95/icons';
 
 const Taskbar = ({ onSectionChange, openWindows, activeWindow, onRestoreWindow }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleMenuItemClick = (section) => {
     setShowStartMenu(false);
@@ -160,7 +169,7 @@ const Taskbar = ({ onSectionChange, openWindows, activeWindow, onRestoreWindow }
             borderLeftColor: '#ffffff',
             marginRight: '4px'
           }}>
-            {new Date().toLocaleTimeString()}
+            {currentTime.toLocaleTimeString()}
           </div>
         </Tooltip>
       </div>
