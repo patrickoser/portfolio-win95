@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Window, WindowHeader, WindowContent, Button } from 'react95';
 
 const ContentArea = ({ activeSection }) => {
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
+
   const getContent = () => {
     switch (activeSection) {
       case 'about':
@@ -56,21 +59,43 @@ const ContentArea = ({ activeSection }) => {
     }
   };
 
+  if (isMinimized) {
+    return null;
+  }
+
   return (
     <Window style={{ 
-      width: '100%',
-      height: 'calc(100vh - 37px)', // Account for taskbar height
+      width: isMaximized ? '100%' : '80%',
+      height: isMaximized ? '100%' : '80%',
       position: 'fixed',
-      top: 0,
-      left: 0
+      top: isMaximized ? '0' : '10%',
+      left: isMaximized ? '0' : '10%',
+      transition: 'all 0.3s ease'
     }}>
       <WindowHeader style={{ display: 'flex', alignItems: 'center' }}>
         <span style={{ flex: 1 }}>
           {activeSection ? activeSection.charAt(0).toUpperCase() + activeSection.slice(1) : 'Welcome'}
         </span>
-        <Button style={{ marginRight: '6px' }}>🗕</Button>
-        <Button style={{ marginRight: '6px' }}>🗖</Button>
-        <Button>🗙</Button>
+        <Button 
+          style={{ marginRight: '6px' }}
+          onClick={() => setIsMinimized(true)}
+        >
+          🗕
+        </Button>
+        <Button 
+          style={{ marginRight: '6px' }}
+          onClick={() => setIsMaximized(!isMaximized)}
+        >
+          {isMaximized ? '🗗' : '🗖'}
+        </Button>
+        <Button 
+          onClick={() => {
+            setIsMinimized(true);
+            setIsMaximized(false);
+          }}
+        >
+          🗙
+        </Button>
       </WindowHeader>
       <WindowContent>
         {getContent()}

@@ -43,26 +43,71 @@ const Taskbar = ({ onSectionChange }) => {
             backgroundColor: '#c0c0c0',
             padding: '2px',
             border: '2px solid #000000',
-            borderRadius: '1px'
+            borderRadius: '1px',
+            boxShadow: '2px 2px 0px #808080, -2px -2px 0px #ffffff',
+            minWidth: '200px'
           }}>
-            <MenuList>
-              <MenuListItem onClick={() => handleMenuItemClick('about')}>
+            <MenuList style={{ 
+              border: 'none',
+              padding: '2px 0'
+            }}>
+              <MenuListItem 
+                onClick={() => handleMenuItemClick('about')}
+                style={{ 
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <span role="img" aria-label="👨‍💻" style={{ marginRight: 8 }}>👨‍💻</span>
                 About Me
               </MenuListItem>
-              <MenuListItem onClick={() => handleMenuItemClick('projects')}>
+              <MenuListItem 
+                onClick={() => handleMenuItemClick('projects')}
+                style={{ 
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <span role="img" aria-label="🚀" style={{ marginRight: 8 }}>🚀</span>
                 Projects
               </MenuListItem>
-              <MenuListItem onClick={() => handleMenuItemClick('experience')}>
+              <MenuListItem 
+                onClick={() => handleMenuItemClick('experience')}
+                style={{ 
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <span role="img" aria-label="💼" style={{ marginRight: 8 }}>💼</span>
                 Experience
               </MenuListItem>
-              <MenuListItem onClick={() => handleMenuItemClick('skills')}>
+              <MenuListItem 
+                onClick={() => handleMenuItemClick('skills')}
+                style={{ 
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <span role="img" aria-label="🎓" style={{ marginRight: 8 }}>🎓</span>
                 Skills
               </MenuListItem>
-              <MenuListItem onClick={() => handleMenuItemClick('contact')}>
+              <MenuListItem 
+                onClick={() => handleMenuItemClick('contact')}
+                style={{ 
+                  padding: '4px 8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <span role="img" aria-label="📧" style={{ marginRight: 8 }}>📧</span>
                 Contact
               </MenuListItem>
@@ -72,7 +117,14 @@ const Taskbar = ({ onSectionChange }) => {
       </div>
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
         <Tooltip text="Current time">
-          <div style={{ padding: '0 8px' }}>
+          <div style={{ 
+            padding: '0 8px',
+            backgroundColor: '#c0c0c0',
+            border: '1px solid #808080',
+            borderTopColor: '#ffffff',
+            borderLeftColor: '#ffffff',
+            marginRight: '4px'
+          }}>
             {new Date().toLocaleTimeString()}
           </div>
         </Tooltip>
