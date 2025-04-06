@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Tooltip, MenuList, MenuItem } from 'react95';
+import { Button, Tooltip } from 'react95';
+import { MenuList } from 'react95/dist/MenuList/MenuList';
+import { MenuListItem } from 'react95/dist/MenuList/MenuListItem';
 import { Computer } from '@react95/icons';
 
 const Taskbar = ({ onSectionChange }) => {
@@ -44,26 +46,26 @@ const Taskbar = ({ onSectionChange }) => {
             borderRadius: '1px'
           }}>
             <MenuList>
-              <MenuItem onClick={() => handleMenuItemClick('about')}>
+              <MenuListItem onClick={() => handleMenuItemClick('about')}>
                 <span role="img" aria-label="👨‍💻" style={{ marginRight: 8 }}>👨‍💻</span>
                 About Me
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('projects')}>
+              </MenuListItem>
+              <MenuListItem onClick={() => handleMenuItemClick('projects')}>
                 <span role="img" aria-label="🚀" style={{ marginRight: 8 }}>🚀</span>
                 Projects
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('experience')}>
+              </MenuListItem>
+              <MenuListItem onClick={() => handleMenuItemClick('experience')}>
                 <span role="img" aria-label="💼" style={{ marginRight: 8 }}>💼</span>
                 Experience
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('skills')}>
+              </MenuListItem>
+              <MenuListItem onClick={() => handleMenuItemClick('skills')}>
                 <span role="img" aria-label="🎓" style={{ marginRight: 8 }}>🎓</span>
                 Skills
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('contact')}>
+              </MenuListItem>
+              <MenuListItem onClick={() => handleMenuItemClick('contact')}>
                 <span role="img" aria-label="📧" style={{ marginRight: 8 }}>📧</span>
                 Contact
-              </MenuItem>
+              </MenuListItem>
             </MenuList>
           </div>
         )}
