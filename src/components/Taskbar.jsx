@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { Button, Tooltip, MenuList, MenuItem } from 'react95';
 import { Computer } from '@react95/icons';
 
-const Taskbar = () => {
+const Taskbar = ({ onSectionChange }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
+
+  const handleMenuItemClick = (section) => {
+    setShowStartMenu(false);
+    onSectionChange(section);
+  };
 
   return (
     <div style={{
@@ -39,23 +44,23 @@ const Taskbar = () => {
             borderRadius: '1px'
           }}>
             <MenuList>
-              <MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('about')}>
                 <span role="img" aria-label="👨‍💻" style={{ marginRight: 8 }}>👨‍💻</span>
                 About Me
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('projects')}>
                 <span role="img" aria-label="🚀" style={{ marginRight: 8 }}>🚀</span>
                 Projects
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('experience')}>
                 <span role="img" aria-label="💼" style={{ marginRight: 8 }}>💼</span>
                 Experience
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('skills')}>
                 <span role="img" aria-label="🎓" style={{ marginRight: 8 }}>🎓</span>
                 Skills
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => handleMenuItemClick('contact')}>
                 <span role="img" aria-label="📧" style={{ marginRight: 8 }}>📧</span>
                 Contact
               </MenuItem>
