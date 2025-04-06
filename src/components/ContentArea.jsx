@@ -63,16 +63,19 @@ const ContentArea = ({ activeSection, onMinimize, onRestore }) => {
   }
 
   return (
-    <Window style={{ 
-      width: isMaximized ? '100%' : '80%',
-      height: isMaximized ? '100%' : '80%',
-      position: 'fixed',
-      top: isMaximized ? '0' : '10%',
-      left: isMaximized ? '0' : '10%',
-      transition: 'all 0.3s ease',
-      zIndex: 1
-    }}>
-      <WindowHeader style={{ display: 'flex', alignItems: 'center' }}>
+    <Window
+      className="window"
+      style={{ 
+        width: isMaximized ? '100%' : '80%',
+        height: isMaximized ? '100%' : '80%',
+        position: 'fixed',
+        top: isMaximized ? '0' : '10%',
+        left: isMaximized ? '0' : '10%',
+        transition: 'all 0.3s ease',
+        zIndex: 1
+      }}
+    >
+      <WindowHeader className="window-header">
         <span style={{ flex: 1 }}>
           {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
         </span>

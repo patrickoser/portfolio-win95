@@ -4,14 +4,21 @@ import ContentArea from './components/ContentArea';
 
 function App() {
   const [activeSection, setActiveSection] = useState(null);
-  const [minimizedWindows, setMinimizedWindows] = useState([]);
+  const [openWindows, setOpenWindows] = useState([]);
+
+  const handleWindowOpen = (section) => {
+    setActiveSection(section);
+    if (!openWindows.includes(section)) {
+      setOpenWindows(prev => [...prev, section]);
+    }
+  };
 
   const handleWindowMinimize = (section) => {
-    setMinimizedWindows(prev => [...prev, section]);
+    setActiveSection(null);
   };
 
   const handleWindowRestore = (section) => {
-    setMinimizedWindows(prev => prev.filter(s => s !== section));
+    setActiveSection(section);
   };
 
   return (
@@ -23,15 +30,19 @@ function App() {
       position: 'relative'
     }}>
       <div style={{ flex: 1, position: 'relative' }}>
-        <ContentArea 
-          activeSection={activeSection} 
-          onMinimize={handleWindowMinimize}
-          onRestore={handleWindowRestore}
-        />
+        {openWindows.map((window) => (
+          <ContentArea 
+            key={window}
+            activeSection={window === activeSection ? window : null}
+            onMinimize={handleWindowMinimize}
+            onRestore={handleWindowRestore}
+          />
+        ))}
       </div>
       <Taskbar 
-        onSectionChange={setActiveSection} 
-        minimizedWindows={minimizedWindows}
+        onSectionChange={handleWindowOpen} 
+        openWindows={openWindows}
+        activeWindow={activeSection}
         onRestoreWindow={handleWindowRestore}
       />
     </div>

@@ -4,7 +4,7 @@ import { MenuList } from 'react95/dist/MenuList/MenuList';
 import { MenuListItem } from 'react95/dist/MenuList/MenuListItem';
 import { Computer } from '@react95/icons';
 
-const Taskbar = ({ onSectionChange, minimizedWindows, onRestoreWindow }) => {
+const Taskbar = ({ onSectionChange, openWindows, activeWindow, onRestoreWindow }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
 
   const handleMenuItemClick = (section) => {
@@ -133,10 +133,11 @@ const Taskbar = ({ onSectionChange, minimizedWindows, onRestoreWindow }) => {
         flex: 1,
         overflowX: 'auto'
       }}>
-        {minimizedWindows.map((window) => (
+        {openWindows.map((window) => (
           <Button
             key={window}
             onClick={() => onRestoreWindow(window)}
+            active={window === activeWindow}
             style={{
               marginRight: '4px',
               whiteSpace: 'nowrap',
