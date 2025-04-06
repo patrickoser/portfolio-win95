@@ -1,24 +1,15 @@
-import React from 'react';
-import Desktop from './components/Desktop';
+import React, { useState } from 'react';
 import Taskbar from './components/Taskbar';
+import ContentArea from './components/ContentArea';
 
 function App() {
+  const [activeSection, setActiveSection] = useState(null);
+
   return (
-    <Desktop>
-      <div style={{ 
-        height: '100vh',
-        width: '100vw',
-        position: 'relative'
-      }}>
-        <div style={{ 
-          height: 'calc(100vh - 37px)',
-          overflow: 'auto'
-        }}>
-          {/* Desktop content will go here */}
-        </div>
-        <Taskbar />
-      </div>
-    </Desktop>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <ContentArea activeSection={activeSection} />
+      <Taskbar onSectionChange={setActiveSection} />
+    </div>
   );
 }
 
