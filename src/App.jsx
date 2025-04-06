@@ -17,6 +17,11 @@ function App() {
     setActiveSection(null);
   };
 
+  const handleWindowClose = (section) => {
+    setActiveSection(null);
+    setOpenWindows(prev => prev.filter(s => s !== section));
+  };
+
   const handleWindowRestore = (section) => {
     setActiveSection(section);
   };
@@ -35,6 +40,7 @@ function App() {
             key={window}
             activeSection={window === activeSection ? window : null}
             onMinimize={handleWindowMinimize}
+            onClose={handleWindowClose}
             onRestore={handleWindowRestore}
           />
         ))}

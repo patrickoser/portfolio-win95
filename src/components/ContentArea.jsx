@@ -23,7 +23,7 @@ const WindowControls = styled.div`
   margin-left: auto;
 `;
 
-const ContentArea = ({ activeSection, onMinimize, onRestore }) => {
+const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   const getContent = () => {
@@ -114,10 +114,7 @@ const ContentArea = ({ activeSection, onMinimize, onRestore }) => {
             {isMaximized ? '🗗' : '🗖'}
           </Button>
           <Button 
-            onClick={() => {
-              onMinimize(activeSection);
-              setIsMaximized(false);
-            }}
+            onClick={() => onClose(activeSection)}
           >
             🗙
           </Button>
