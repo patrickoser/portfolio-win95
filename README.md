@@ -1,3 +1,5 @@
+todo: Make the popup windows, from the start menu, look more like windows that just opened.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
