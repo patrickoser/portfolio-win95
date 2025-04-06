@@ -4,12 +4,23 @@ import { MenuList } from 'react95/dist/MenuList/MenuList';
 import { MenuListItem } from 'react95/dist/MenuList/MenuListItem';
 import { Computer } from '@react95/icons';
 
-const Taskbar = ({ onSectionChange }) => {
+const Taskbar = ({ onSectionChange, minimizedWindows, onRestoreWindow }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
 
   const handleMenuItemClick = (section) => {
     setShowStartMenu(false);
     onSectionChange(section);
+  };
+
+  const getWindowIcon = (section) => {
+    switch (section) {
+      case 'about': return '👨‍💻';
+      case 'projects': return '🚀';
+      case 'experience': return '💼';
+      case 'skills': return '🎓';
+      case 'contact': return '📧';
+      default: return '📄';
+    }
   };
 
   return (
@@ -114,6 +125,29 @@ const Taskbar = ({ onSectionChange }) => {
             </MenuList>
           </div>
         )}
+      </div>
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center',
+        marginLeft: '8px',
+        flex: 1,
+        overflowX: 'auto'
+      }}>
+        {minimizedWindows.map((window) => (
+          <Button
+            key={window}
+            onClick={() => onRestoreWindow(window)}
+            style={{
+              marginRight: '4px',
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <span style={{ marginRight: '4px' }}>{getWindowIcon(window)}</span>
+            {window.charAt(0).toUpperCase() + window.slice(1)}
+          </Button>
+        ))}
       </div>
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
         <Tooltip text="Current time">

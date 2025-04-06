@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Window, WindowHeader, WindowContent, Button } from 'react95';
 
-const ContentArea = ({ activeSection }) => {
-  const [isMinimized, setIsMinimized] = useState(false);
+const ContentArea = ({ activeSection, onMinimize, onRestore }) => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   const getContent = () => {
@@ -59,7 +58,7 @@ const ContentArea = ({ activeSection }) => {
     }
   };
 
-  if (isMinimized) {
+  if (!activeSection) {
     return null;
   }
 
@@ -70,15 +69,16 @@ const ContentArea = ({ activeSection }) => {
       position: 'fixed',
       top: isMaximized ? '0' : '10%',
       left: isMaximized ? '0' : '10%',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      zIndex: 1
     }}>
       <WindowHeader style={{ display: 'flex', alignItems: 'center' }}>
         <span style={{ flex: 1 }}>
-          {activeSection ? activeSection.charAt(0).toUpperCase() + activeSection.slice(1) : 'Welcome'}
+          {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
         </span>
         <Button 
           style={{ marginRight: '6px' }}
-          onClick={() => setIsMinimized(true)}
+          onClick={() => onMinimize(activeSection)}
         >
           🗕
         </Button>
@@ -90,7 +90,7 @@ const ContentArea = ({ activeSection }) => {
         </Button>
         <Button 
           onClick={() => {
-            setIsMinimized(true);
+            onMinimize(activeSection);
             setIsMaximized(false);
           }}
         >
