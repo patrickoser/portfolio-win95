@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Window, WindowHeader, WindowContent, Button } from 'react95';
 import styled from 'styled-components';
+import Draggable from 'react-draggable';
 
 const StyledWindow = styled(Window)`
   background: #c0c0c0;
@@ -15,6 +16,7 @@ const StyledWindowHeader = styled(WindowHeader)`
   align-items: center;
   padding: 4px 6px;
   border-bottom: 2px solid #000000;
+  cursor: move;
 `;
 
 const WindowControls = styled.div`
@@ -25,6 +27,21 @@ const WindowControls = styled.div`
 
 const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
   const [isMaximized, setIsMaximized] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const nodeRef = useRef(null);
+
+  const handleMaximize = () => {
+    if (!isMaximized) {
+      setPosition({ x: 0, y: 0 });
+    }
+    setIsMaximized(!isMaximized);
+  };
+
+  const handleDragStop = (e, data) => {
+    if (!isMaximized) {
+      setPosition({ x: data.x, y: data.y });
+    }
+  };
 
   const getContent = () => {
     switch (activeSection) {
@@ -85,45 +102,56 @@ const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
   }
 
   return (
-    <StyledWindow
-      style={{ 
-        width: isMaximized ? '100%' : '80%',
-        height: isMaximized ? '100%' : '80%',
-        position: 'fixed',
-        top: isMaximized ? '0' : '10%',
-        left: isMaximized ? '0' : '10%',
-        transition: 'all 0.3s ease',
-        zIndex: 1
-      }}
+    <Draggable
+      nodeRef={nodeRef}
+      handle=".window-header"
+      position={isMaximized ? { x: 0, y: 0 } : position}
+      onStop={handleDragStop}
+      disabled={isMaximized}
+      bounds="parent"
     >
-      <StyledWindowHeader>
-        <span style={{ flex: 1 }}>
-          {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
-        </span>
-        <WindowControls>
-          <Button 
-            style={{ marginRight: '6px' }}
-            onClick={() => onMinimize(activeSection)}
-          >
-            🗕
-          </Button>
-          <Button 
-            style={{ marginRight: '6px' }}
-            onClick={() => setIsMaximized(!isMaximized)}
-          >
-            {isMaximized ? '🗗' : '🗖'}
-          </Button>
-          <Button 
-            onClick={() => onClose(activeSection)}
-          >
-            🗙
-          </Button>
-        </WindowControls>
-      </StyledWindowHeader>
-      <WindowContent style={{ background: '#c0c0c0' }}>
-        {getContent()}
-      </WindowContent>
-    </StyledWindow>
+      <div ref={nodeRef}>
+        <StyledWindow
+          style={{
+            width: isMaximized ? '100%' : '80%',
+            height: isMaximized ? 'calc(100% - 37px)' : '80%',
+            position: 'absolute',
+            top: isMaximized ? '0' : '10%',
+            left: isMaximized ? '0' : '10%',
+            transition: isMaximized ? 'all 0.3s ease' : 'none',
+            zIndex: 1
+          }}
+        >
+          <StyledWindowHeader className="window-header">
+            <span style={{ flex: 1 }}>
+              {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
+            </span>
+            <WindowControls>
+              <Button 
+                style={{ marginRight: '6px' }}
+                onClick={() => onMinimize(activeSection)}
+              >
+                🗕
+              </Button>
+              <Button 
+                style={{ marginRight: '6px' }}
+                onClick={handleMaximize}
+              >
+                {isMaximized ? '🗗' : '🗖'}
+              </Button>
+              <Button 
+                onClick={() => onClose(activeSection)}
+              >
+                🗙
+              </Button>
+            </WindowControls>
+          </StyledWindowHeader>
+          <WindowContent style={{ background: '#c0c0c0' }}>
+            {getContent()}
+          </WindowContent>
+        </StyledWindow>
+      </div>
+    </Draggable>
   );
 };
 
