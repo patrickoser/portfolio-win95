@@ -19,9 +19,10 @@ const StyledWindow = styled(Window)`
 
   &.maximized {
     width: 100%;
-    height: calc(100% - 37px);
+    height: calc(100vh - 37px);
     top: 0;
     left: 0;
+    position: fixed;
   }
 `;
 
@@ -71,6 +72,7 @@ const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const nodeRef = useRef(null);
   const isFirstRender = useRef(true);
+  const lastPosition = useRef({ x: 0, y: 0 });
 
   // Calculate initial position
   useEffect(() => {
@@ -82,16 +84,22 @@ const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
       const containerWidth = container.offsetWidth;
       const containerHeight = container.offsetHeight;
       
-      setPosition({
-        x: (containerWidth - windowWidth) / 2,
-        y: (containerHeight - windowHeight) / 2
-      });
+      const centerX = (containerWidth - windowWidth) / 2;
+      const centerY = (containerHeight - windowHeight) / 2;
+      
+      setPosition({ x: centerX, y: centerY });
+      lastPosition.current = { x: centerX, y: centerY };
     }
   }, [activeSection]);
 
   const handleMaximize = () => {
     if (!isMaximized) {
+      // Store current position before maximizing
+      lastPosition.current = position;
       setPosition({ x: 0, y: 0 });
+    } else {
+      // Restore to last position when unmaximizing
+      setPosition(lastPosition.current);
     }
     setIsMaximized(!isMaximized);
   };
@@ -108,7 +116,9 @@ const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
       const boundedX = Math.max(0, Math.min(data.x, containerWidth - windowWidth));
       const boundedY = Math.max(0, Math.min(data.y, containerHeight - windowHeight));
       
-      setPosition({ x: boundedX, y: boundedY });
+      const newPosition = { x: boundedX, y: boundedY };
+      setPosition(newPosition);
+      lastPosition.current = newPosition;
     }
   };
 
@@ -169,49 +179,60 @@ const ContentArea = ({ activeSection, onMinimize, onClose, onRestore }) => {
     return null;
   }
 
+  const windowContent = (
+    <StyledWindow className={isMaximized ? 'maximized' : ''}>
+      <StyledWindowHeader className="window-header">
+        <span style={{ flex: 1 }}>
+          {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
+        </span>
+        <WindowControls>
+          <Button 
+            style={{ marginRight: '6px' }}
+            onClick={() => onMinimize(activeSection)}
+          >
+            🗕
+          </Button>
+          <Button 
+            style={{ marginRight: '6px' }}
+            onClick={handleMaximize}
+          >
+            {isMaximized ? '🗗' : '🗖'}
+          </Button>
+          <Button 
+            onClick={() => onClose(activeSection)}
+          >
+            🗙
+          </Button>
+        </WindowControls>
+      </StyledWindowHeader>
+      <WindowContentWrapper>
+        {getContent()}
+      </WindowContentWrapper>
+    </StyledWindow>
+  );
+
   return (
     <DraggableContainer>
-      <Draggable
-        nodeRef={nodeRef}
-        handle=".window-header"
-        position={isMaximized ? { x: 0, y: 0 } : position}
-        onStop={handleDragStop}
-        disabled={isMaximized}
-        bounds="parent"
-        defaultPosition={{ x: 0, y: 0 }}
-      >
-        <div ref={nodeRef} style={{ position: 'absolute' }}>
-          <StyledWindow className={isMaximized ? 'maximized' : ''}>
-            <StyledWindowHeader className="window-header">
-              <span style={{ flex: 1 }}>
-                {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
-              </span>
-              <WindowControls>
-                <Button 
-                  style={{ marginRight: '6px' }}
-                  onClick={() => onMinimize(activeSection)}
-                >
-                  🗕
-                </Button>
-                <Button 
-                  style={{ marginRight: '6px' }}
-                  onClick={handleMaximize}
-                >
-                  {isMaximized ? '🗗' : '🗖'}
-                </Button>
-                <Button 
-                  onClick={() => onClose(activeSection)}
-                >
-                  🗙
-                </Button>
-              </WindowControls>
-            </StyledWindowHeader>
-            <WindowContentWrapper>
-              {getContent()}
-            </WindowContentWrapper>
-          </StyledWindow>
+      {isMaximized ? (
+        <div ref={nodeRef}>
+          {windowContent}
         </div>
-      </Draggable>
+      ) : (
+        <Draggable
+          nodeRef={nodeRef}
+          handle=".window-header"
+          position={position}
+          onStop={handleDragStop}
+          bounds="parent"
+          defaultPosition={{ x: 0, y: 0 }}
+          grid={[1, 1]}
+          cancel=".window-controls"
+        >
+          <div ref={nodeRef} style={{ position: 'absolute' }}>
+            {windowContent}
+          </div>
+        </Draggable>
+      )}
     </DraggableContainer>
   );
 };
