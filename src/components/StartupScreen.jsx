@@ -8,7 +8,8 @@ const FullScreenOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: #000;
+  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,6 +17,33 @@ const FullScreenOverlay = styled.div`
   z-index: 9999;
   color: white;
   font-family: 'ms_sans_serif';
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
+      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.6) 0%, transparent 50%);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 1;
+    animation: cloudMove 60s linear infinite;
+  }
+
+  @keyframes cloudMove {
+    0% {
+      background-position: 0 0, 0 0, 0 0;
+    }
+    100% {
+      background-position: 200px 0, -200px 0, 100px 0;
+    }
+  }
 `;
 
 const Logo = styled.div`
@@ -23,6 +51,8 @@ const Logo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
 `;
 
 const WindowsLogo = styled.div`
@@ -30,6 +60,8 @@ const WindowsLogo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
 `;
 
 const LogoImage = styled.img`
@@ -38,6 +70,8 @@ const LogoImage = styled.img`
   margin-bottom: 20px;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  position: relative;
+  z-index: 2;
 `;
 
 const Copyright = styled.div`
