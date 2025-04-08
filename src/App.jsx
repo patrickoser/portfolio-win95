@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import Taskbar from './components/Taskbar';
 import ContentArea from './components/ContentArea';
+import StartupScreen from './components/StartupScreen';
 
 function App() {
+  const [isStarting, setIsStarting] = useState(true);
   const [activeSection, setActiveSection] = useState(null);
   const [openWindows, setOpenWindows] = useState([]);
+
+  const handleStartupComplete = () => {
+    setIsStarting(false);
+  };
 
   const handleWindowOpen = (section) => {
     setActiveSection(section);
@@ -25,6 +31,10 @@ function App() {
   const handleWindowRestore = (section) => {
     setActiveSection(section);
   };
+
+  if (isStarting) {
+    return <StartupScreen onComplete={handleStartupComplete} />;
+  }
 
   return (
     <div style={{ 
