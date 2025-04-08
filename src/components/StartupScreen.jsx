@@ -25,10 +25,15 @@ const Logo = styled.div`
 `;
 
 const WindowsLogo = styled.div`
-  font-size: 48px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+const LogoImage = styled.img`
+  width: 200px;
+  height: auto;
   margin-bottom: 10px;
 `;
 
@@ -113,8 +118,11 @@ const StartupScreen = ({ onComplete }) => {
     <FullScreenOverlay>
       <Logo>
         <WindowsLogo>
-          <span>Windows</span>
-          <span style={{ fontSize: '40px' }}>95</span>
+          <LogoImage 
+            src="/src/assets/windows95-logo.png" 
+            alt="Windows 95 Logo"
+          />
+          <span style={{ fontSize: '40px' }}>Windows 95</span>
         </WindowsLogo>
         <Copyright>
           Copyright © 1981-1995 Microsoft Corp.
