@@ -32,9 +32,11 @@ const WindowsLogo = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 200px;
+  width: 400px;
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 `;
 
 const Copyright = styled.div`
