@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import windowsLogo from '../assets/windows95-logo.png';
 
 const FullScreenOverlay = styled.div`
   position: fixed;
@@ -121,7 +122,7 @@ const StartupScreen = ({ onComplete }) => {
       <Logo>
         <WindowsLogo>
           <LogoImage 
-            src="/src/assets/windows95-logo.png" 
+            src={windowsLogo}
             alt="Windows 95 Logo"
           />
           <span style={{ fontSize: '40px' }}>Windows 95</span>
