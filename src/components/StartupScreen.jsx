@@ -18,11 +18,24 @@ const FullScreenOverlay = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+const WindowsLogo = styled.div`
   font-size: 48px;
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 10px;
+`;
+
+const Copyright = styled.div`
+  font-size: 12px;
+  color: #808080;
+  margin-top: 5px;
 `;
 
 const LoadingBar = styled.div`
@@ -32,6 +45,7 @@ const LoadingBar = styled.div`
   border: 2px solid #000000;
   position: relative;
   overflow: hidden;
+  margin-top: 20px;
 `;
 
 const Progress = styled.div`
@@ -41,15 +55,39 @@ const Progress = styled.div`
   transition: width 0.5s ease;
 `;
 
+const BootMessage = styled.div`
+  font-size: 14px;
+  margin: 10px 0;
+  color: #c0c0c0;
+  text-align: center;
+  min-height: 20px;
+`;
+
 const StartupScreen = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(true);
+  const [bootMessage, setBootMessage] = useState('Starting Windows 95...');
+
+  const bootMessages = [
+    'Starting Windows 95...',
+    'Loading system files...',
+    'Initializing drivers...',
+    'Preparing desktop...',
+    'Almost ready...'
+  ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    let messageIndex = 0;
+    const messageTimer = setInterval(() => {
+      messageIndex = (messageIndex + 1) % bootMessages.length;
+      setBootMessage(bootMessages[messageIndex]);
+    }, 1000);
+
+    const progressTimer = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          clearInterval(timer);
+          clearInterval(progressTimer);
+          clearInterval(messageTimer);
           setTimeout(() => {
             onComplete();
           }, 500);
@@ -65,7 +103,8 @@ const StartupScreen = ({ onComplete }) => {
     }, 500);
 
     return () => {
-      clearInterval(timer);
+      clearInterval(progressTimer);
+      clearInterval(messageTimer);
       clearInterval(blinkTimer);
     };
   }, [onComplete]);
@@ -73,14 +112,17 @@ const StartupScreen = ({ onComplete }) => {
   return (
     <FullScreenOverlay>
       <Logo>
-        <span>Windows</span>
-        <span style={{ fontSize: '40px' }}>95</span>
+        <WindowsLogo>
+          <span>Windows</span>
+          <span style={{ fontSize: '40px' }}>95</span>
+        </WindowsLogo>
+        <Copyright>
+          Copyright © 1981-1995 Microsoft Corp.
+        </Copyright>
       </Logo>
-      {showText && (
-        <div style={{ marginBottom: '20px' }}>
-          Starting Windows 95...
-        </div>
-      )}
+      <BootMessage>
+        {showText && bootMessage}
+      </BootMessage>
       <LoadingBar>
         <Progress $progress={progress} />
       </LoadingBar>
